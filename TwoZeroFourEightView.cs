@@ -28,6 +28,12 @@ namespace twozerofoureight
         public void Notify(Model m)
         {
             UpdateBoard(((TwoZeroFourEightModel) m).GetBoard());
+            ScoreShow.Text = Convert.ToString(((TwoZeroFourEightModel)m).score);
+            if(((TwoZeroFourEightModel)m).isFull == true)
+            {
+                GameOver.Visible = true;
+                Again.Visible = true;
+            }
         }
 
         private void UpdateTile(Label l, int i)
@@ -41,19 +47,19 @@ namespace twozerofoureight
             switch (i)
             {
                 case 0:
-                    l.BackColor = Color.Gray;
+                    l.BackColor = Color.Gainsboro;
                     break;
                 case 2:
-                    l.BackColor = Color.DarkGray;
+                    l.BackColor = Color.LightSkyBlue;
                     break;
                 case 4:
-                    l.BackColor = Color.Orange;
+                    l.BackColor = Color.CornflowerBlue;
                     break;
                 case 8:
-                    l.BackColor = Color.Red;
+                    l.BackColor = Color.RoyalBlue;
                     break;
                 default:
-                    l.BackColor = Color.Green;
+                    l.BackColor = Color.MediumBlue;
                     break;
             }
         }
@@ -76,26 +82,35 @@ namespace twozerofoureight
             UpdateTile(lbl32,board[3, 2]);
             UpdateTile(lbl33,board[3, 3]);
         }
-
-        private void btnLeft_Click(object sender, EventArgs e)
+        
+        public void EnterKey()
         {
-            controller.ActionPerformed(TwoZeroFourEightController.LEFT);
+            InitializeComponent();
+        }
+        private void TwoZeroFourEightView_Load(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Down:
+                    controller.ActionPerformed(TwoZeroFourEightController.DOWN);
+                    break;
+                case Keys.Up:
+                    controller.ActionPerformed(TwoZeroFourEightController.UP);
+                    break;
+                case Keys.Left:
+                    controller.ActionPerformed(TwoZeroFourEightController.LEFT);
+                    break;
+                case Keys.Right:
+                    controller.ActionPerformed(TwoZeroFourEightController.RIGHT);
+                    break;
+            }
         }
 
-        private void btnRight_Click(object sender, EventArgs e)
+        private void Again_Click(object sender, EventArgs e)
         {
-            controller.ActionPerformed(TwoZeroFourEightController.RIGHT);
+            controller.ActionPerformed(TwoZeroFourEightController.RESET);
+            GameOver.Visible = false;
+            Again.Visible = false;
         }
-
-        private void btnUp_Click(object sender, EventArgs e)
-        {
-            controller.ActionPerformed(TwoZeroFourEightController.UP);
-        }
-
-        private void btnDown_Click(object sender, EventArgs e)
-        {
-            controller.ActionPerformed(TwoZeroFourEightController.DOWN);
-        }
-
     }
 }
